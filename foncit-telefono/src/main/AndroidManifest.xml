@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Foncit: permisos y componentes del teléfono móvil. Se mezclan solos con el manifiesto de la app que importa la librería -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <application>
+        <!-- Llamada en curso o sonando: la mantiene viva aunque la app esté en segundo plano -->
+        <service
+            android:name="com.foncit.telefono.internal.ServicioLlamada"
+            android:exported="false"
+            android:foregroundServiceType="phoneCall|microphone" />
+
+        <!-- Botones de la notificación de llamada (contestar, rechazar, colgar) -->
+        <receiver
+            android:name="com.foncit.telefono.internal.AccionLlamadaReceiver"
+            android:exported="false" />
+
+        <!-- Pantalla de llamada: se muestra sobre la pantalla bloqueada -->
+        <activity
+            android:name="com.foncit.telefono.ui.LlamadaActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true"
+            android:taskAffinity="com.foncit.telefono.llamada"
+            android:theme="@style/Theme.FoncitTelefono.Llamada" />
+    </application>
+</manifest>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Foncit: textos del teléfono móvil (español). Los de inglés están en values-en -->
+<resources>
+    <string name="foncit_titulo">Teléfono</string>
+    <string name="foncit_teclado">Teclado</string>
+    <string name="foncit_recientes">Recientes</string>
+    <string name="foncit_conectado">Conectado</string>
+    <string name="foncit_conectando">Conectando…</string>
+    <string name="foncit_desconectado">Sin conexión</string>
+    <string name="foncit_reintentar">Reintentar</string>
+    <string name="foncit_extension">Extensión %1$s</string>
+    <string name="foncit_marcar">Marca un número</string>
+    <string name="foncit_llamar">Llamar</string>
+    <string name="foncit_borrar">Borrar</string>
+    <string name="foncit_sin_recientes">Aún no tienes llamadas.</string>
+    <string name="foncit_entrante">Llamada entrante</string>
+    <string name="foncit_saliente">Llamada saliente</string>
+    <string name="foncit_perdida">Perdida</string>
+    <string name="foncit_marcando">Llamando…</string>
+    <string name="foncit_sonando">Sonando…</string>
+    <string name="foncit_en_espera">En espera</string>
+    <string name="foncit_terminada">Llamada terminada</string>
+    <string name="foncit_contestar">Contestar</string>
+    <string name="foncit_rechazar">Rechazar</string>
+    <string name="foncit_colgar">Colgar</string>
+    <string name="foncit_silenciar">Silenciar</string>
+    <string name="foncit_altavoz">Altavoz</string>
+    <string name="foncit_espera">Espera</string>
+    <string name="foncit_volver_llamada">Volver a la llamada</string>
+    <string name="foncit_desconocido">Desconocido</string>
+    <string name="foncit_permiso_microfono">Para llamar, permite el uso del micrófono.</string>
+    <string name="foncit_permitir">Permitir</string>
+    <string name="foncit_sin_servidor">No se pudo conectar con el servidor de llamadas. Revisa tu internet.</string>
+    <string name="foncit_llamar_desde">Llamar desde</string>
+    <string name="foncit_sin_extensiones">Aún no tienes extensiones. Pide a tu administrador que te asigne una.</string>
+    <string name="foncit_canal_entrantes">Llamadas entrantes</string>
+    <string name="foncit_canal_en_curso">Llamada en curso</string>
+    <string name="foncit_llamada_en_curso">Llamada en curso</string>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="foncit_titulo">Phone</string>
+    <string name="foncit_teclado">Keypad</string>
+    <string name="foncit_recientes">Recents</string>
+    <string name="foncit_conectado">Connected</string>
+    <string name="foncit_conectando">Connecting…</string>
+    <string name="foncit_desconectado">Offline</string>
+    <string name="foncit_reintentar">Retry</string>
+    <string name="foncit_extension">Extension %1$s</string>
+    <string name="foncit_marcar">Dial a number</string>
+    <string name="foncit_llamar">Call</string>
+    <string name="foncit_borrar">Delete</string>
+    <string name="foncit_sin_recientes">No calls yet.</string>
+    <string name="foncit_entrante">Incoming call</string>
+    <string name="foncit_saliente">Outgoing call</string>
+    <string name="foncit_perdida">Missed</string>
+    <string name="foncit_marcando">Calling…</string>
+    <string name="foncit_sonando">Ringing…</string>
+    <string name="foncit_en_espera">On hold</string>
+    <string name="foncit_terminada">Call ended</string>
+    <string name="foncit_contestar">Answer</string>
+    <string name="foncit_rechazar">Decline</string>
+    <string name="foncit_colgar">Hang up</string>
+    <string name="foncit_silenciar">Mute</string>
+    <string name="foncit_altavoz">Speaker</string>
+    <string name="foncit_espera">Hold</string>
+    <string name="foncit_volver_llamada">Back to call</string>
+    <string name="foncit_desconocido">Unknown</string>
+    <string name="foncit_permiso_microfono">To make calls, allow microphone access.</string>
+    <string name="foncit_sin_servidor">Could not connect to the calling server. Check your internet.</string>
+    <string name="foncit_llamar_desde">Call from</string>
+    <string name="foncit_sin_extensiones">You have no extensions yet. Ask your administrator to assign you one.</string>
+    <string name="foncit_permitir">Allow</string>
+    <string name="foncit_canal_entrantes">Incoming calls</string>
+    <string name="foncit_canal_en_curso">Ongoing call</string>
+    <string name="foncit_llamada_en_curso">Ongoing call</string>
+</resources>
