@@ -39,7 +39,8 @@ internal object ApiFoncit {
 
     /** POST a TelefonoMovilWS; regresa el código HTTP y el JSON */
     private suspend fun enviar(solicitud: String, datos: JSONObject, token: String?): Pair<Int, JSONObject> = withContext(Dispatchers.IO) {
-        val conexion = URL(Rutas.telefonoMovil(FoncitTelefono.ajustes.ambiente)).openConnection() as HttpURLConnection
+        val ruta = Rutas.telefonoMovil(FoncitTelefono.ajustes.ambiente)
+        val conexion = URL(ruta).openConnection() as HttpURLConnection
         try {
             conexion.requestMethod = "POST"
             conexion.connectTimeout = 10000
@@ -53,7 +54,13 @@ internal object ApiFoncit {
             conexion.outputStream.use { it.write(datos.toString().toByteArray()) }
             val codigo = conexion.responseCode
             val texto = (if (codigo in 200..299) conexion.inputStream else conexion.errorStream)?.bufferedReader()?.use { it.readText() } ?: "{}"
-            Pair(codigo, runCatching { JSONObject(texto) }.getOrElse { JSONObject() })
+            /** Para saber a dónde llama y qué contestó el servidor: logcat, filtro FoncitTelefono (solo status y mensaje: no se escribe el token ni las contraseñas) */
+            val json = runCatching { JSONObject(texto) }.getOrElse { JSONObject() }
+            Log.i("FoncitTelefono", "$solicitud -> $ruta HTTP $codigo status=${json.opt("status")} mensaje=${json.optString("mensaje")}")
+            Pair(codigo, json)
+        } catch (e: Exception) {
+            Log.w("FoncitTelefono", "$solicitud -> $ruta falló: ${e.message}")
+            throw e
         } finally {
             conexion.disconnect()
         }

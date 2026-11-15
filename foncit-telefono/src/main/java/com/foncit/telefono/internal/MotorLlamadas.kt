@@ -3,6 +3,7 @@ package com.foncit.telefono.internal
 import android.content.Context
 import android.content.Intent
 import android.os.Handler
+import android.util.Log
 import android.os.Looper
 import com.foncit.telefono.EstadoLlamada
 import com.foncit.telefono.EstadoRegistro
@@ -54,6 +55,8 @@ internal object MotorLlamadas {
                 else -> EstadoRegistro.DESCONECTADO
             }
             val usuario = account.params.identityAddress?.username ?: return
+            /** Logcat, filtro FoncitTelefono: así se ve por qué una extensión no conecta (sin contraseñas) */
+            Log.i("FoncitTelefono", "Registro de la extensión $usuario en ${account.params.serverAddress?.asStringUriOnly()}: $state $message")
             registros[usuario] = registro
             if (registro == EstadoRegistro.ERROR) mensajeRegistro = message
             publicarExtensiones()
