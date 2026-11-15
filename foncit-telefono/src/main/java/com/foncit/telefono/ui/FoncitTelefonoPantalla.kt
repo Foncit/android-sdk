@@ -69,7 +69,7 @@ import com.foncit.telefono.EstadoRegistro
 import com.foncit.telefono.EstadoTelefono
 import com.foncit.telefono.FoncitTelefono
 import com.foncit.telefono.LlamadaReciente
-import com.foncit.telefono.R
+import org.linphone.core.R
 import com.foncit.telefono.internal.ApiFoncit
 import com.foncit.telefono.internal.MotorLlamadas
 

@@ -9,7 +9,7 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
-import com.foncit.telefono.R
+import org.linphone.core.R
 import com.foncit.telefono.ui.LlamadaActivity
 
 /** Notificaciones de llamada: entrante (pantalla completa, aun con el celular bloqueado) y en curso */

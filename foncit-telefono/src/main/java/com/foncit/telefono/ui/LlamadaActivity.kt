@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.sp
 import com.foncit.telefono.EstadoLlamada
 import com.foncit.telefono.FoncitTelefono
 import com.foncit.telefono.LlamadaActual
-import com.foncit.telefono.R
+import org.linphone.core.R
 import com.foncit.telefono.internal.MotorLlamadas
 import kotlinx.coroutines.delay
 

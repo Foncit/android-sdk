@@ -27,7 +27,9 @@ val extraerLinphone = tasks.register<Sync>("extraerLinphone") {
 tasks.named("preBuild") { dependsOn(extraerLinphone) }
 
 android {
-    namespace = "com.foncit.telefono"
+    // Linphone busca su clase de recursos org.linphone.core.R (sus textos de versión). Como ahora va dentro de este SDK,
+    // el namespace es el de Linphone para que Android genere esa clase en la app que use el SDK. El código sigue en com.foncit.telefono.
+    namespace = "org.linphone.core"
     compileSdk = 35
 
     defaultConfig {
