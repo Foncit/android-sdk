@@ -23,6 +23,9 @@ val extraerLinphone = tasks.register<Sync>("extraerLinphone") {
     into(linphoneDir)
 }
 
+// Todo lo que arma el SDK (JNI, assets, recursos, compilación) espera a que Linphone esté descomprimido
+tasks.named("preBuild") { dependsOn(extraerLinphone) }
+
 android {
     namespace = "com.foncit.telefono"
     compileSdk = 35
