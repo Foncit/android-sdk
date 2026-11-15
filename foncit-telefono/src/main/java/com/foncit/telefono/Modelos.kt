@@ -23,7 +23,7 @@ data class ColoresFoncit(
 
 /**
  * Ajustes del teléfono. Todos son opcionales.
- * @param ambiente PRODUCCION (foncit.com) o PRUEBAS (stg.foncit.com)
+ * @param ambiente PRODUCCION (webservices.foncit.com) o PRUEBAS (stg-webservices.foncit.com)
  * @param colorPrincipal color de los botones (ARGB) si los colores del modo no traen principal; por defecto el naranja de Foncit
  * @param oscuro tema oscuro; null = el del sistema
  * @param coloresClaro colores de la app en modo claro (los que falten, los de Foncit)
