@@ -16,6 +16,17 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
+    <!-- Los que traía el manifiesto de Linphone (ahora va dentro del SDK, así que se declaran aquí) -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <!-- Para que CAMERA no impida instalar en tabletas sin cámara -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
     <application>
         <!-- Llamada en curso o sonando: la mantiene viva aunque la app esté en segundo plano -->
         <service

@@ -1,0 +1,5 @@
+# JitPack compila el SDK desde el tag de git; Linphone ya va dentro (repo-linphone/), no se descarga nada más.
+jdk:
+  - openjdk17
+install:
+  - ./gradlew :foncit-telefono:publishReleasePublicationToMavenLocal -x test

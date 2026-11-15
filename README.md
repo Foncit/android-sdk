@@ -4,8 +4,8 @@ SDK completo y listo para producción que integra un teléfono VoIP empresarial 
 
 Usa el motor de llamadas Linphone con **SIP seguro por TLS (puerto 5061)** y **voz cifrada SRTP**.
 
-> **Novedad en V2**: Linphone viene **100% integrado dentro del proyecto**.  
-> El cliente final ya **no** tiene que agregar repositorios externos de Linphone (`https://download.linphone.org/maven_repository`) en su `settings.gradle.kts`. Todo el motor ya viene empaquetado y listo para usar.
+> **Novedad en V2**: Linphone viene **dentro del SDK** (igual que los xcframework en el SDK de iOS).  
+> La app que lo use solo agrega **una línea** de dependencia: no instala, descarga ni configura nada de Linphone.
 
 ---
 
@@ -27,8 +27,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        // Repositorio de Foncit (SDK con Linphone preintegrado):
-        maven { url = uri("https://stg-android.foncit.com/") }
+        // El SDK se descarga directo del git de Foncit (JitPack lo compila desde el tag):
+        maven { url = uri("https://jitpack.io") }
     }
 }
 ```
@@ -36,9 +36,16 @@ dependencyResolutionManagement {
 ### `app/build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("com.foncit:telefono:2.0.0")
+    implementation("com.github.Foncit.android-sdk:foncit-telefono:2.0.0")
 }
 ```
+
+> `2.0.0` es el **tag** de git del repositorio `github.com/Foncit/android-sdk`.  
+> Si el repositorio es privado, JitPack requiere un token (`authToken` en `~/.gradle/gradle.properties`).
+
+### Publicar una versión nueva (equipo Foncit)
+1. Cambia `version` en `foncit-telefono/build.gradle.kts`.
+2. Ejecuta `./publicar.sh --tag` (compila, hace commit/push y sube el tag).
 
 ---
 

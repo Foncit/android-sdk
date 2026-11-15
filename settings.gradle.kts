@@ -14,8 +14,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        /** Linphone 100% integrado dentro del repositorio (sin descargas externas) */
-        maven { url = uri("$rootDir/repo-linphone") }
     }
 }
 rootProject.name = "FoncitTelefono"

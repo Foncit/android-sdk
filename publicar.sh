@@ -1,28 +1,32 @@
 #!/bin/bash
-# Foncit v2: genera el repositorio Maven del SDK en foncit-telefono/build/maven-foncit (SDK de Foncit + Linphone integrado).
+# Foncit v2: genera el SDK (un solo .aar con Linphone dentro) y lo deja listo para subir a git.
+# Uso:  ./publicar.sh            -> compila y prueba el repositorio Maven local
+#       ./publicar.sh --tag      -> además crea y sube el tag con la versión (JitPack lo compila solo)
 set -e
 cd "$(dirname "$0")"
-LINPHONE=5.5.39
-DESTINO=foncit-telefono/build/maven-foncit
-VERSIONES=${VERSIONES:-/Users/andres/Archivos/Descargas/PHP/FONCIT/SDK/FONCIT/ANDROID}
 
+DESTINO=foncit-telefono/build/maven-foncit
 VERSION=$(grep -m1 'version = "' foncit-telefono/build.gradle.kts | sed 's/.*version = "\(.*\)".*/\1/')
 
 JAVA_HOME="${JAVA_HOME:-/Applications/Android Studio.app/Contents/jbr/Contents/Home}"
 export JAVA_HOME
 
-./gradlew :foncit-telefono:publishReleasePublicationToFoncitRepository --console=plain -q
-
-# Linphone embebido directamente desde repo-linphone/ local
-CARPETA=$DESTINO/org/linphone/linphone-sdk-android
-mkdir -p "$CARPETA"
-cp -R repo-linphone/org/linphone/linphone-sdk-android/* "$CARPETA/"
-
-if [ -d "$VERSIONES" ]; then
-    mkdir -p "$VERSIONES"
-    cp -R $DESTINO/com $DESTINO/org "$VERSIONES/"
-    echo "Listo: versión $VERSION en $VERSIONES"
+if git rev-parse "$VERSION" >/dev/null 2>&1; then
+    echo "La versión $VERSION ya existe como tag. Sube el número de versión en foncit-telefono/build.gradle.kts."
+    exit 1
 fi
 
-echo "Listo: versión $VERSION generada en $DESTINO"
-echo "Sube al servidor: com/foncit/telefono/$VERSION y org/linphone/linphone-sdk-android/$LINPHONE"
+./gradlew :foncit-telefono:publishReleasePublicationToFoncitRepository --console=plain -q
+
+echo "Listo: com.foncit:foncit-telefono:$VERSION generado en $DESTINO"
+echo "Comprobación: el .aar debe traer Linphone dentro (libs/classes.jar y jni/)."
+unzip -l "$DESTINO/com/foncit/foncit-telefono/$VERSION/foncit-telefono-$VERSION.aar" | grep -E "jni/|libs/" | head -8 || true
+
+if [ "$1" = "--tag" ]; then
+    git add -A
+    git commit -m "Foncit Teléfono $VERSION" || true
+    git push origin HEAD
+    git tag "$VERSION"
+    git push origin "$VERSION"
+    echo "Tag $VERSION subido. Usa: implementation(\"com.github.Foncit.android-sdk:foncit-telefono:$VERSION\")"
+fi
