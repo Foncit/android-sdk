@@ -10,9 +10,13 @@ import com.foncit.telefono.EstadoRegistro
 import com.foncit.telefono.EstadoTelefono
 import com.foncit.telefono.ExtensionTelefono
 import com.foncit.telefono.LlamadaActual
+import com.foncit.telefono.LlamadaFinalizada
 import com.foncit.telefono.ui.LlamadaActivity
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.json.JSONArray
@@ -37,6 +41,12 @@ internal object MotorLlamadas {
 
     private val _estado = MutableStateFlow(EstadoTelefono())
     val estado: StateFlow<EstadoTelefono> = _estado.asStateFlow()
+
+    /** Llamadas que van terminando (FoncitTelefono.llamadasFinalizadas); guarda las últimas por si la app empieza a escuchar un momento después */
+    private val _finalizadas = MutableSharedFlow<LlamadaFinalizada>(replay = 0, extraBufferCapacity = 16)
+    val finalizadas: SharedFlow<LlamadaFinalizada> = _finalizadas.asSharedFlow()
+    /** Call-ID de las que ya se avisaron (End y Error pueden llegar para la misma llamada) */
+    private val avisadas = LinkedHashSet<String>()
 
     private var core: Core? = null
     private val principal = Handler(Looper.getMainLooper())
@@ -80,6 +90,7 @@ internal object MotorLlamadas {
                 }
                 Call.State.Paused, Call.State.PausedByRemote -> actualizarLlamada(call, EstadoLlamada.EN_ESPERA)
                 Call.State.End, Call.State.Released, Call.State.Error -> {
+                    if (state != Call.State.Released) avisarFinalizada(call)
                     if (core.callsNb == 0) {
                         Notificaciones.quitarEntrante(contexto)
                         ServicioLlamada.detener(contexto)
@@ -89,6 +100,28 @@ internal object MotorLlamadas {
                 else -> {}
             }
         }
+    }
+
+    /** Avisa una sola vez por llamada que terminó, con los datos para registrarla */
+    private fun avisarFinalizada(call: Call) {
+        runCatching {
+            val registro = call.callLog
+            val id = registro.callId?.takeIf { it.isNotBlank() } ?: "${numeroDe(call)}-${registro.startDate}"
+            if (!avisadas.add(id)) return
+            if (avisadas.size > 50) avisadas.remove(avisadas.first())
+            val duracion = call.duration
+            val inicioMs = if (registro.startDate > 0) registro.startDate * 1000L else System.currentTimeMillis() - duracion * 1000L
+            val finalizada = LlamadaFinalizada(
+                idLlamada = id,
+                numero = numeroDe(call),
+                direccion = if (call.dir == Call.Dir.Incoming) "entrante" else "saliente",
+                contestada = duracion > 0,
+                duracionSegundos = duracion,
+                fechaInicioMs = inicioMs
+            )
+            Log.i("FoncitTelefono", "Llamada finalizada: ${finalizada.direccion} ${finalizada.numero}, contestada ${finalizada.contestada}, ${finalizada.duracionSegundos}s")
+            _finalizadas.tryEmit(finalizada)
+        }.onFailure { Log.w("FoncitTelefono", "No se pudo avisar el fin de la llamada: ${it.message}") }
     }
 
     private fun numeroDe(call: Call): String = call.remoteAddress.username ?: ""

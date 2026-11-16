@@ -76,6 +76,24 @@ data class EstadoTelefono(
     val sinExtensiones: Boolean = false
 )
 
+/**
+ * Una llamada que acaba de terminar (los mismos datos que el evento foncit:llamada-finalizada del teléfono web).
+ * @param idLlamada identificador único de la llamada (para no registrarla dos veces)
+ * @param numero número con el que se habló
+ * @param direccion "saliente" o "entrante"
+ * @param contestada si se llegó a hablar
+ * @param duracionSegundos cuánto duró la conversación
+ * @param fechaInicioMs cuándo empezó (milisegundos)
+ */
+data class LlamadaFinalizada(
+    val idLlamada: String,
+    val numero: String,
+    val direccion: String,
+    val contestada: Boolean,
+    val duracionSegundos: Int,
+    val fechaInicioMs: Long
+)
+
 /** Una llamada del historial de Foncit */
 data class LlamadaReciente(
     val numero: String,

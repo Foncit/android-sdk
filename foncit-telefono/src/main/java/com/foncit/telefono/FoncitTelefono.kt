@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -51,6 +52,22 @@ object FoncitTelefono {
 
     /** Si ya se llamó a configurar */
     val configurado: Boolean get() = ::contexto.isInitialized
+
+    /**
+     * Avisa cada vez que termina una llamada (entrante o saliente), con su número, dirección, si se contestó y cuánto duró.
+     * Sirve para registrarla en tu app, igual que el evento foncit:llamada-finalizada del teléfono web.
+     */
+    val llamadasFinalizadas: SharedFlow<LlamadaFinalizada> get() = MotorLlamadas.finalizadas
+
+    /**
+     * Si el usuario tiene extensiones de Foncit en este celular (las conectadas o las guardadas de la última vez).
+     * Con true se puede marcar con llamar(numero); con false la app usa su procedimiento normal.
+     */
+    fun tieneExtensiones(): Boolean {
+        if (!configurado) return false
+        if (estado.value.extensiones.isNotEmpty()) return true
+        return (Almacen.telefonos?.length() ?: 0) > 0
+    }
 
     /**
      * Configura el teléfono. Llámalo al abrir la app y cada vez que cambie el usuario.
